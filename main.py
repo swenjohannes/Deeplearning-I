@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 24 15:41:38 2021
-
-@author: swen
-"""
 
 import os
 import time
@@ -24,20 +17,21 @@ def get_memory():
 
 x_train, x_test, train_lable, test_lable = load_data()              #Load data from folder  
 
-base_memory = get_memory()
-
-for batchsize in [32, 64, 128, 256, 512]:
+#for droprate in [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6]:    
+for batchsize in [64, 128, 256, 512]:   
+    base_memory = get_memory()
     start_time = time.time()
     model, history = run_new_model(x_train, x_test, train_lable, test_lable , 
-                                      Batchnorm = True,
+                                      Batchnorm = False,
                                       Droprate = 0.5, 
                                       Batchsize = batchsize, 
                                       epochs = 20)
     end_time = time.time() - start_time
-    memory = base_memory - get_memory()                             #correct for data mem usage!
+    memory = get_memory() - base_memory                              #correct for data mem usage!
+
     print("--- %s seconds , %s mb memory in usage ---" % (end_time, memory))
 
-    save_model(model, history, "With_batchnorm_" + str(batchsize), end_time, memory)
+    save_model(model, history, "batchsize_no_batchnorm_" + str(batchsize), end_time, memory)
 
     del model, history                                              #.fit() blows up ram
     gc.collect()                                                    #memory management!

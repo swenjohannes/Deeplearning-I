@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 24 15:41:38 2021
 
-@author: swen
-"""
 from keras.datasets import cifar10
 
 # load train and test dataset

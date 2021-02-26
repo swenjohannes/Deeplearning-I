@@ -1,10 +1,4 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 24 16:03:05 2021
 
-@author: swen
-"""
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, MaxPooling2D, Flatten, Dropout, Input, BatchNormalization, MaxPool2D
 from keras.utils import to_categorical
@@ -27,11 +21,13 @@ def run_new_model(x_train, x_test, train_lable, test_lable, Batchnorm = False, D
     model.add(Conv2D(filters=96, kernel_size = (3,3), activation='relu', padding="same"))
     if Batchnorm == True:
         model.add(BatchNormalization())
+    model.add(MaxPool2D(pool_size=(2,2), strides = (1,1)))
     model.add(Flatten())
     model.add(Dropout(Droprate))
     model.add(Dense(1024, activation = 'relu'))
     model.add(Dropout(Droprate))
     model.add(Dense(1024, activation = 'relu'))
+    model.add(Dropout(Droprate))
     model.add(Dense(10, activation = 'softmax'))
 
     model.summary()	    #summary of the fitted model
